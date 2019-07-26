@@ -1,0 +1,38 @@
+
+== WORKING STEPS ==
+
+-- step1: compile qspec-param --
+
+working dir: omics/qprot-win64/qprot_1.3.0
+
+gcc -g -O3 -I/usr/include/gsl -L/usr/lib/ -c src/QSPECparam/*.c src/QSPECparam/*.h
+
+# ignore warnings thrown by the above command
+
+gcc *.o -o qspec-param -lm -lgsl -lgslcblas
+
+rm -f *.o
+
+-- step2: compile getfdr --
+
+working dir: omics/qprot-win64/qprot_1.3.0
+
+gcc -g -O3 -I/usr/include/gsl -L/usr/lib/ -c src/FDR/*.c src/FDR/*.h
+
+# ignore warnings thrown by the above command
+
+gcc *.o -o getfdr -lm -lgsl -lgslcblas
+
+rm -f *.o
+
+== RUN QSPEC ==
+
+working dir: omics/qprot-win64
+
+# with normalization
+./qprot_1.3.0/qspec-param datamatrix.txt 2000 10000 1
+./qprot_1.3.0/getfdr datamatrix.txt_qspec
+
+# if not using normalization, insert a dummy length of 1 for all proteins since QSPEC absolutely requires a length to be specified
+./qprot_1.3.0/qspec-param datamatrix-1len.txt 2000 10000 0
+./qprot_1.3.0/getfdr datamatrix-1len.txt_qspec

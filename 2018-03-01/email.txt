@@ -1,0 +1,25 @@
+
+Hi Klaas,
+
+I have appended the results into your spreadsheets - see attached. 
+
+QSPEC
+- see columns "S"-"W" in your spreadsheet
+- used same parameters as before: 5000 burn-in, 20000 iterations
+- found 11 proteins with fdr < 0.05
+
+GLEE
+- see columns "Y"-"Z" in your spreadsheet
+- used 10000 iterations, cubic interpolation
+- found 30 proteins with pVal < 0.01
+
+There is an overlap of 9 proteins between QSPEC and GLEE, in terms of significant diff-exp proteins. 
+
+T-test
+- see columns "P"-"T" in your spreadsheet
+- did two-sided t-test (wt vs cgep) using 3 replicates each, assuming unequal variance
+
+Let me know if you need any further analysis. 
+
+Thanks,
+Lalit

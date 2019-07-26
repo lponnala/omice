@@ -1,0 +1,7 @@
+#! /bin/sh
+gcc -Wall -c *.c pep.h
+gcc *.o -lgsl -lgslcblas -lm -o ../../bin/qspec-paired
+rm -rf *.o
+rm -rf *.gch
+rm -rf *~
+

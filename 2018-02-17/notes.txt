@@ -1,0 +1,61 @@
+
+Hi Klaas,
+
+Using your complete dataset, there's two ways to test for significant differences between genotypes:
+
+Approach 1: Using two-way ANOVA
+
+This approach treats the genotype and function as "factors", and fits the following model:
+
+level = mean + genotype + function + error
+
+As shown in the first sheet of the attached "two-way-anova.xlsx", both function and genotype have a significant effect. 
+
+To find out which pairs of genotypes are significantly different, we run multiple pairwise comparisons using the "Tukey HSD" method. Results in the second sheet of "two-way-anova.xlsx" indicate that
+* prep & opda are significantly different, at 95% confidence (since adj.p.value < 0.05)
+* if you drop the confidence to 90%, then WT & prep also turn out to be significantly different
+
+This approach seems best-suited to address your question, since ANOVA is a well-established technique that allows you test for genotype-differences while accounting for other sources of variation. 
+
+For information on 2-way anova, and how to use it to test for differences, visit the following links:
+- https://en.wikipedia.org/wiki/Two-way_analysis_of_variance
+- http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test
+
+Approach 2: Using pairwise t-tests for each function
+
+In this approach, we select pairs of genotypes, and we check for differences function-wise. This way, we end up doing a lot of t-tests, as shown in the attached "func-tests.xlsx". 
+This approach has a few drawbacks:
+* it takes a fine-grained view at the individual function-level, and does not quantify overall difference between genotypes
+* it requires correction of p-values, due to multiple-testing (e.g. via the Bonferroni procedure)
+
+I would recommend going with "Approach 1" for genotype difference across all functions. But if you want to illustrate a few function-specific differences, you can use some of the output from "Approach 2" as well. 
+
+Let me know if you have questions or need further analysis. 
+
+-Lalit
+
+------------------------------------------------------------
+
+// 1: pairwise genotypic difference in each function //
+for each function (i.e. organelle-function combination), you can do t-tests to check for differences in every pair of genotypes : see func-tests.xlsx
+- the first sheet does not assume equal-variance, while the last sheet does
+- as per sheet2, equal-variance is not a bad assumption to make, but we'll stay away from it (to avoid having to explain why we made that assumption), so use sheet1 results
+
+
+// 2: pairwise genotypic difference across functions //
+use 1-way ANOVA in each gen1-gen2 pair
+  http://www.sthda.com/english/wiki/wiki.php?title=one-way-anova-test-in-r#compute-one-way-anova-test
+use 2-way ANOVA with all the data, testing for effect of genotype, function, and their interaction
+  http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test
+
+------------------------------------------------------------
+
+// misc thoughts //
+- do a paired t-test since the same function's replicates are being used ?
+- make the t-test non-parametric, e.g. Wilcoxon-Mann-Whitney ?: https://stats.idre.ucla.edu/spss/whatstat/what-statistical-analysis-should-i-usestatistical-analyses-using-spss/
+
+// search phrases //
+- multivariate significant difference
+- multivariate test of significant difference
+
+------------------------------------------------------------

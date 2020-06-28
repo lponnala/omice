@@ -1,4 +1,6 @@
 
+library(dplyr)
+
 #' check the spectral count data
 #'
 #' dimensions must match with specification, and all values must be positive
@@ -125,7 +127,7 @@ calc_stn_pval = function(A, B, m, num_iter) {
 
 #' estimate the STN distribution
 #'
-#' as a dplyr data_frame
+#' as a dplyr dataframe
 #'
 #' @importFrom dplyr %>%
 #' @importFrom dplyr bind_rows
@@ -141,7 +143,7 @@ getSTNdistrib = function(A, nA, nB, iter, xbar0_replace, best_model) {
     if (i %% 100 == 0) { cat("i = ", i, "\n", sep="") }
     Astar_i = matrix(sample(A[i,], size=nA*iter, replace=TRUE), nrow=iter, ncol=nA)
     Bstar_i = matrix(sample(A[i,], size=nB*iter, replace=TRUE), nrow=iter, ncol=nB)
-    XbarStar[[i]] = dplyr::data_frame(xbarA = rowMeans(Astar_i), xbarB = rowMeans(Bstar_i)) %>%
+    XbarStar[[i]] = dplyr::tibble(xbarA = rowMeans(Astar_i), xbarB = rowMeans(Bstar_i)) %>%
       dplyr::mutate(xbarA = ifelse(xbarA==0,xbar0_replace,xbarA),
                     xbarB = ifelse(xbarB==0,xbar0_replace,xbarB),
                     model_stn_dist = (xbarB - xbarA) / (calcs(best_model,xbarB) + calcs(best_model,xbarA)))

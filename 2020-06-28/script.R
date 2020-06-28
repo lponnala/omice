@@ -1,37 +1,37 @@
 
-# --------------------------------------------------------------------------------
-# do PCA
-# --------------------------------------------------------------------------------
-clr()
-load("N.RData") # using adjSPC
-method = c("prcomp","princomp")[[1]]
-
-if (method == "prcomp") {
-  y = prcomp(N[,-1])
-  pc = y$rotation
-} else if (method == "princomp") {
-  y = princomp(N[,-1])
-  pc = y$loadings
-}
-
-print(summary(y))
-print(pc)
-# print(pc, cutoff=0.0001)
-
-jpeg('NadjSPC-pcaPlot.jpg')
-plot(pc[1:3,1:2],type='p',pch=15,main="PCA using NadjSPC data",xlab='PC1',ylab='PC2',xlim=c(min(pc[,1])-0.1,max(pc[,1])+0.1),ylim=c(min(pc[,2])-0.1,max(pc[,2])+0.1))
-points(pc[4:6,1:2],type='p',pch=17)
-legend('topleft',inset=0.05,legend=c('wt','cgep'),pch=c(15,17),col='black')
-dev.off()
-
-write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
-# --------------------------------------------------------------------------------
+# # --------------------------------------------------------------------------------
+# # do PCA
+# # --------------------------------------------------------------------------------
+# rm(list = ls(envir = globalenv()), envir = globalenv())
+# load("N.RData") # using adjSPC
+# method = c("prcomp","princomp")[[1]]
+# 
+# if (method == "prcomp") {
+#   y = prcomp(N[,-1])
+#   pc = y$rotation
+# } else if (method == "princomp") {
+#   y = princomp(N[,-1])
+#   pc = y$loadings
+# }
+# 
+# print(summary(y))
+# print(pc)
+# # print(pc, cutoff=0.0001)
+# 
+# jpeg('NadjSPC-pcaPlot.jpg')
+# plot(pc[1:3,1:2],type='p',pch=15,main="PCA using NadjSPC data",xlab='PC1',ylab='PC2',xlim=c(min(pc[,1])-0.1,max(pc[,1])+0.1),ylim=c(min(pc[,2])-0.1,max(pc[,2])+0.1))
+# points(pc[4:6,1:2],type='p',pch=17)
+# legend('topleft',inset=0.05,legend=c('wt','cgep'),pch=c(15,17),col='black')
+# dev.off()
+# 
+# write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
+# # --------------------------------------------------------------------------------
 
 
 # # --------------------------------------------------------------------------------
 # # do t-test
 # # --------------------------------------------------------------------------------
-# clr()
+# rm(list = ls(envir = globalenv()), envir = globalenv())
 # dato = readxl::read_excel("t-test-forLalit.xlsx")
 # 
 # dat = dato %>% dplyr::select(contains("func"),contains("nadj"))
@@ -58,7 +58,7 @@ write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
 # # --------------------------------------------------------------------------------
 # # compare QSPEC vs GLEE output
 # # --------------------------------------------------------------------------------
-# clr()
+# rm(list = ls(envir = globalenv()), envir = globalenv())
 # glee = readr::read_csv("glee-results.csv")
 # qspec = readr::read_csv("qspec-results.csv")
 # 
@@ -80,7 +80,7 @@ write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
 # # --------------------------------------------------------------------------------
 # # run QSPEC
 # # --------------------------------------------------------------------------------
-# clr()
+# rm(list = ls(envir = globalenv()), envir = globalenv())
 # load("A.RData") # using adjSPC
 # datfile = "datamatrix.txt"
 # outfile = "qspec-results.csv"
@@ -112,7 +112,7 @@ write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
 # # --------------------------------------------------------------------------------
 # # run GLEE
 # # --------------------------------------------------------------------------------
-# clr()
+# rm(list = ls(envir = globalenv()), envir = globalenv())
 # load("A.RData") # use adjSPC data
 # 
 # # # [did not work] upload the following text-file to https://lponnala.shinyapps.io/glee/
@@ -158,7 +158,7 @@ write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
 # # --------------------------------------
 # # run correlations
 # # --------------------------------------
-# clr()
+# rm(list = ls(envir = globalenv()), envir = globalenv())
 # load("A.RData")
 # cor(A[,-1]) %>% print()
 # # write.csv(cor(A[,-1]), file="corr-adjSPC.csv")
@@ -168,31 +168,55 @@ write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
 # # --------------------------------------
 
 
-# # --------------------------------------------------------------------------------
-# # prepare data
-# # --------------------------------------------------------------------------------
-# clr()
-# dat = readxl::read_excel("spc-wt-vs-cgep-forLalit.xlsx")
-# colnames(dat) %>% cat(sep="\n")
-# 
-# A = dat %>% dplyr::select(contains("acc"),matches("^Adj"))
-# colnames(A) %>% cat(sep="\n")
-# colnames(A) = c("Accession","wt_rep1","wt_rep2","wt_rep3","cgep_rep1","cgep_rep2","cgep_rep3")
-# dim(A)
-# A %<>% dplyr::filter(!is.na(Accession)) # nested "missing" rows in spreadsheet
-# dim(A)
-# A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
-# A %>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0)) %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
-# A %<>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0))
-# A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
-# A %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # QSPEC does not like spaced in protein-name
-# save(A, file = "A.RData")
-# 
-# N = dat %>% dplyr::select(contains("acc"),contains("nadj"))
-# colnames(N) %>% cat(sep="\n")
-# colnames(N) = c("Accession","wt_rep1","wt_rep2","wt_rep3","cgep_rep1","cgep_rep2","cgep_rep3")
-# N %<>% dplyr::filter(!is.na(Accession))
-# dim(N)
-# N %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # to be consistent with what we did for adjSPC above
-# save(N, file = "N.RData")
-# # --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+# prepare data
+# --------------------------------------------------------------------------------
+rm(list = ls(envir = globalenv()), envir = globalenv())
+
+dat = readxl::read_excel("forLalit-Reiset-June2020v2.xlsx")
+colnames(dat) %>% cat(sep="\n")
+
+A = dat %>% dplyr::select(c(1,3:8))
+colnames(A) %>% cat(sep="\n")
+colnames(A) = c("Accession","wt_rep1","wt_rep2","wt_rep3","trap_rep1","trap_rep2","trap_rep3")
+dim(A)
+A %<>% dplyr::filter(!is.na(Accession)) # nested "missing" rows in spreadsheet
+dim(A)
+A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0)) %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %<>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0))
+A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # QSPEC does not like spaced in protein-name
+save(A, file = "A.RData")
+
+N = dat %>% dplyr::select(c(1,10:15))
+colnames(N) %>% cat(sep="\n")
+colnames(N) = c("Accession","wt_rep1","wt_rep2","wt_rep3","trap_rep1","trap_rep2","trap_rep3")
+N %<>% dplyr::filter(!is.na(Accession))
+dim(N)
+N %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # to be consistent with what we did for adjSPC above
+save(N, file = "N.RData")
+
+# // normalized to ClpC1 //
+
+A = dat %>% dplyr::select(c(1,17:22))
+colnames(A) %>% cat(sep="\n")
+colnames(A) = c("Accession","wt_clpc1_rep1","wt_clpc1_rep2","wt_clpc1_rep3","trap_clpc1_rep1","trap_clpc1_rep2","trap_clpc1_rep3")
+dim(A)
+A %<>% dplyr::filter(!is.na(Accession)) # nested "missing" rows in spreadsheet
+dim(A)
+A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0)) %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %<>% dplyr::mutate_if(is.numeric, ~ ifelse(is.finite(.x),.x,0))
+A %>% dplyr::filter(is.finite(rowSums(.[-1]))) %>% dim()
+A %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # QSPEC does not like spaced in protein-name
+save(A, file = "A_clpc1.RData")
+
+N = dat %>% dplyr::select(c(1,24:29))
+colnames(N) %>% cat(sep="\n")
+colnames(N) = c("Accession","wt_clpc1_rep1","wt_clpc1_rep2","wt_clpc1_rep3","trap_clpc1_rep1","trap_clpc1_rep2","trap_clpc1_rep3")
+N %<>% dplyr::filter(!is.na(Accession))
+dim(N)
+N %<>% dplyr::mutate(Accession = stringr::str_replace_all(Accession," ","_")) # to be consistent with what we did for adjSPC above
+save(N, file = "N_clpc1.RData")
+# --------------------------------------------------------------------------------

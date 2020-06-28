@@ -1,10 +1,31 @@
 
 // For Linode //
-just a few changes in the command-line paths, rest same as below
 
 working dir: /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0
-compiling qspec-param: gcc -g -O3 -I/usr/include/gsl -L/usr/local/lib/ -c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/QSPECparam/*.c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/QSPECparam/*.h
-compiling getfdr: gcc -g -O3 -I/usr/include/gsl -L/usr/local/lib/ -c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/FDR/*.c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/FDR/*.h
+
+~~ compile qspec-param ~~
+$ gcc -g -O3 -I/usr/include/gsl -L/usr/local/lib/ -c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/QSPECparam/*.c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/QSPECparam/*.h
+# ignore warnings thrown by the above command
+$ gcc *.o -o qspec-param -lm -lgsl -lgslcblas
+$ rm -f *.o
+
+~~ compile getfdr ~~
+$ gcc -g -O3 -I/usr/include/gsl -L/usr/local/lib/ -c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/FDR/*.c /home/lponnala/repos/omics/qprot-linux/qprot_1.3.0/src/FDR/*.h
+# ignore warnings thrown by the above command
+$ gcc *.o -o getfdr -lm -lgsl -lgslcblas
+$ rm -f *.o
+
+~~ set library path ~~
+$ LD_LIBRARY_PATH=/usr/local/lib
+$ export LD_LIBRARY_PATH
+
+~~ run QSPEC ~~
+-- with normalization --
+$ ./qprot_1.3.0/qspec-param datamatrix.txt 2000 10000 1
+$ ./qprot_1.3.0/getfdr datamatrix.txt_qspec
+-- if not using normalization, insert a dummy length of 1 for all proteins since QSPEC absolutely requires a length to be specified --
+$ ./qprot_1.3.0/qspec-param datamatrix-1len.txt 2000 10000 0
+$ ./qprot_1.3.0/getfdr datamatrix-1len.txt_qspec
 
 
 == WORKING STEPS ==

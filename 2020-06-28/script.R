@@ -39,15 +39,10 @@ A %>% dplyr::mutate(Length = 1) %>%
 # inspect the file
 file.show(datfile)
 
-# run QSPEC on Linode
+# run QSPEC on Linode (might need to compile the programs: see ../qprot-linux/qprot_1.3.0/make-instructions)
 system("rm -f *qspec*")
 system(paste0("../qprot-linux/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
 system(paste0("../qprot-linux/qprot_1.3.0/getfdr ",datfile,"_qspec"))
-
-# # run QSPEC on Windows-64
-# system("rm -f *qspec*")
-# system(paste0("../qprot-win64/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
-# system(paste0("../qprot-win64/qprot_1.3.0/getfdr ",datfile,"_qspec"))
 
 # clean up the output (remove the "dummy" length column, and assign proper column names)
 R = readr::read_tsv(file = paste0(datfile,"_qspec_fdr"), col_names = TRUE)

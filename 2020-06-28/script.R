@@ -3,7 +3,7 @@
 # # do PCA
 # # --------------------------------------------------------------------------------
 # rm(list = ls(envir = globalenv()), envir = globalenv())
-# load("N.RData") # using adjSPC
+# load("N.RData")
 # method = c("prcomp","princomp")[[1]]
 # 
 # if (method == "prcomp") {
@@ -81,7 +81,7 @@
 # # run QSPEC
 # # --------------------------------------------------------------------------------
 # rm(list = ls(envir = globalenv()), envir = globalenv())
-# load("A.RData") # using adjSPC
+# load("A.RData")
 # datfile = "datamatrix.txt"
 # outfile = "qspec-results.csv"
 # 
@@ -113,17 +113,17 @@
 # run GLEE
 # --------------------------------------------------------------------------------
 rm(list = ls(envir = globalenv()), envir = globalenv())
-load("A.RData") # use adjSPC data
 
-# set parameters
+# setup
 source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
-Data = A
+load("N.RData")
+Data = N
 nA = 3
 nB = 3
 fit_type = "cubic"
 num_iter = 10000
 num_digits = 4
-outfile = "glee-results.csv"
+out_stub = "glee-NadjSPC" # file = "glee-results-NadjSPC.csv"
 
 # run the procedure
 Prot = unlist(Data[,1])
@@ -137,18 +137,18 @@ if (!data_ok(Data,nA,nB)) {
   stop(msg)
 }
 m = fit_model(A, B, fit_type)
-model_fit_plots(m, outfile="glee-fitplots.png")
+model_fit_plots(m, outfile=paste0(out_stub,"-fitplots.png"))
 stn_pval = calc_stn_pval(A, B, m, num_iter)
-stn_pval_plots(stn_pval, outfile="glee-stn-pval.png")
+stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
 tab = diff_exp_table(stn_pval, Prot, num_digits)
 
 # write out in the same order in which proteins were listed in the input
 Data %>% dplyr::select(Accession) %>%
   dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
-  readr::write_csv(path = outfile)
+  readr::write_csv(path = paste0(out_stub,"-results.csv"))
 
 # inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
-file.show(outfile)
+file.show(paste0(out_stub,"-results.csv"))
 # --------------------------------------------------------------------------------
 
 

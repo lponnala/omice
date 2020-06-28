@@ -26,10 +26,10 @@
 # --------------------------------------------------------------------------------
 rm(list = ls(envir = globalenv()), envir = globalenv())
 
-# setuo
-load("A_clpc1.RData")
-datfile = "datamatrix_clpc1.txt"
-outfile = "qspec-clpc1-adjSPC-results.csv"
+# setup
+load("A.RData")
+datfile = "datamatrix.txt"
+outfile = "qspec-adjSPC-results.csv"
 
 # write the data in proper format
 cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)
@@ -43,6 +43,11 @@ file.show(datfile)
 system("rm -f *qspec*")
 system(paste0("../qprot-linux/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
 system(paste0("../qprot-linux/qprot_1.3.0/getfdr ",datfile,"_qspec"))
+
+# # run QSPEC on Windows-64
+# system("rm -f *qspec*")
+# system(paste0("../qprot-win64/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
+# system(paste0("../qprot-win64/qprot_1.3.0/getfdr ",datfile,"_qspec"))
 
 # clean up the output (remove the "dummy" length column, and assign proper column names)
 R = readr::read_tsv(file = paste0(datfile,"_qspec_fdr"), col_names = TRUE)

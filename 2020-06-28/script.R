@@ -1,61 +1,5 @@
 
 # # --------------------------------------------------------------------------------
-# # do PCA
-# # --------------------------------------------------------------------------------
-# rm(list = ls(envir = globalenv()), envir = globalenv())
-# load("N.RData")
-# method = c("prcomp","princomp")[[1]]
-# 
-# if (method == "prcomp") {
-#   y = prcomp(N[,-1])
-#   pc = y$rotation
-# } else if (method == "princomp") {
-#   y = princomp(N[,-1])
-#   pc = y$loadings
-# }
-# 
-# print(summary(y))
-# print(pc)
-# # print(pc, cutoff=0.0001)
-# 
-# jpeg('NadjSPC-pcaPlot.jpg')
-# plot(pc[1:3,1:2],type='p',pch=15,main="PCA using NadjSPC data",xlab='PC1',ylab='PC2',xlim=c(min(pc[,1])-0.1,max(pc[,1])+0.1),ylim=c(min(pc[,2])-0.1,max(pc[,2])+0.1))
-# points(pc[4:6,1:2],type='p',pch=17)
-# legend('topleft',inset=0.05,legend=c('wt','cgep'),pch=c(15,17),col='black')
-# dev.off()
-# 
-# write.csv(pc[,1:2], file = "NadjSPC-pca.csv")
-# # --------------------------------------------------------------------------------
-
-
-# # --------------------------------------------------------------------------------
-# # do t-test
-# # --------------------------------------------------------------------------------
-# rm(list = ls(envir = globalenv()), envir = globalenv())
-# dato = readxl::read_excel("t-test-forLalit.xlsx")
-# 
-# dat = dato %>% dplyr::select(contains("func"),contains("nadj"))
-# colnames(dat) %>% print()
-# colnames(dat) = c("simple functional name","wt rep1","wt rep2","wt rep3","cgep rep1","cgep rep2","cgep rep3")
-# 
-# dat %<>% 
-#   tidyr::gather(key = "key", value = "val", -`simple functional name`) %>% 
-#   tidyr::separate(key, into = c("gen","rep"), sep = " ") %>% 
-#   dplyr::group_by(`simple functional name`) %>% tidyr::nest() %>% 
-#   dplyr::mutate(ttN = purrr::map(data, function(x) t.test(val ~ gen, data = x, var.equal = FALSE, paired = FALSE, alternative = "two.sided"))) %>% 
-#   dplyr::mutate(ttNP = purrr::map(ttN, function(x) x %>% broom::tidy() %>% dplyr::transmute(statistic,`p.value`,inference = ifelse(`p.value` < 0.05, "NOTEQ", "EQUAL"),method,alternative))) %>% 
-#   tidyr::unnest(ttNP) %>% 
-#   dplyr::select_if(~ !is.list(.x))
-# 
-# dato %>% dplyr::left_join(dat, by = "simple functional name") %>% 
-#   readr::write_csv("ttest-results.csv")
-# 
-# # inspect the results (copy-paste the t-test columns into Klaas's original spreadsheet)
-# file.show("ttest-results.csv")
-# # --------------------------------------------------------------------------------
-
-
-# # --------------------------------------------------------------------------------
 # # compare QSPEC vs GLEE output
 # # --------------------------------------------------------------------------------
 # rm(list = ls(envir = globalenv()), envir = globalenv())
@@ -109,47 +53,47 @@
 # # --------------------------------------------------------------------------------
 
 
-# --------------------------------------------------------------------------------
-# run GLEE
-# --------------------------------------------------------------------------------
-rm(list = ls(envir = globalenv()), envir = globalenv())
-
-# setup
-source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
-load("N.RData")
-Data = N
-nA = 3
-nB = 3
-fit_type = "cubic"
-num_iter = 10000
-num_digits = 4
-out_stub = "glee-NadjSPC" # file = "glee-results-NadjSPC.csv"
-
-# run the procedure
-Prot = unlist(Data[,1])
-A = as.matrix(Data[,1+(1:nA)])
-B = as.matrix(Data[,1+nA+(1:nB)])
-if (!data_ok(Data,nA,nB)) {
-  msg = paste("check input data! spreadsheet must have",
-  "(1) the right number of columns",
-  "(2) positive finite values",
-  "\n",sep="\n")
-  stop(msg)
-}
-m = fit_model(A, B, fit_type)
-model_fit_plots(m, outfile=paste0(out_stub,"-fitplots.png"))
-stn_pval = calc_stn_pval(A, B, m, num_iter)
-stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
-tab = diff_exp_table(stn_pval, Prot, num_digits)
-
-# write out in the same order in which proteins were listed in the input
-Data %>% dplyr::select(Accession) %>%
-  dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
-  readr::write_csv(path = paste0(out_stub,"-results.csv"))
-
-# inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
-file.show(paste0(out_stub,"-results.csv"))
-# --------------------------------------------------------------------------------
+# # --------------------------------------------------------------------------------
+# # run GLEE
+# # --------------------------------------------------------------------------------
+# rm(list = ls(envir = globalenv()), envir = globalenv())
+# 
+# # setup
+# source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
+# load("N_clpc1.RData")
+# Data = N
+# nA = 3
+# nB = 3
+# fit_type = "cubic"
+# num_iter = 10000
+# num_digits = 4
+# out_stub = "glee-clpc1-NadjSPC"
+# 
+# # run the procedure
+# Prot = unlist(Data[,1])
+# A = as.matrix(Data[,1+(1:nA)])
+# B = as.matrix(Data[,1+nA+(1:nB)])
+# if (!data_ok(Data,nA,nB)) {
+#   msg = paste("check input data! spreadsheet must have",
+#   "(1) the right number of columns",
+#   "(2) positive finite values",
+#   "\n",sep="\n")
+#   stop(msg)
+# }
+# m = fit_model(A, B, fit_type)
+# model_fit_plots(m, outfile=paste0(out_stub,"-fitplots.png"))
+# stn_pval = calc_stn_pval(A, B, m, num_iter)
+# stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
+# tab = diff_exp_table(stn_pval, Prot, num_digits)
+# 
+# # write out in the same order in which proteins were listed in the input
+# Data %>% dplyr::select(Accession) %>%
+#   dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
+#   readr::write_csv(path = paste0(out_stub,"-results.csv"))
+# 
+# # inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
+# file.show(paste0(out_stub,"-results.csv"))
+# # --------------------------------------------------------------------------------
 
 
 # # --------------------------------------

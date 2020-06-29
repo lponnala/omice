@@ -1,24 +1,28 @@
 
-# # --------------------------------------------------------------------------------
-# # compare QSPEC vs GLEE output
-# # --------------------------------------------------------------------------------
-# rm(list = ls(envir = globalenv()), envir = globalenv())
-# glee = readr::read_csv("glee-results.csv")
-# qspec = readr::read_csv("qspec-results.csv")
-# 
-# symdiff(qspec$Protein,qspec$Protein)
-# 
-# glee_cutoff = 0.01
-# qspec_cutoff = 0.05
-# 
-# glee %>% dplyr::filter(pVal < glee_cutoff) %>% nrow()
-# qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% nrow()
-# 
-# intersect(
-#   glee %>% dplyr::filter(pVal < glee_cutoff) %>% .$Accession,
-#   qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% .$Protein
-# ) %>% length()
-# # --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+# compare QSPEC vs GLEE output
+# --------------------------------------------------------------------------------
+rm(list = ls(envir = globalenv()), envir = globalenv())
+glee = readr::read_csv("glee-NadjSPC-results.csv")
+qspec = readr::read_csv("qspec-adjSPC-results.csv")
+
+symdiff = function(x, y) {
+  setdiff(union(x, y), intersect(x, y))
+}
+
+symdiff(qspec$Protein,qspec$Protein)
+
+glee_cutoff = 0.01
+qspec_cutoff = 0.05
+
+glee %>% dplyr::filter(pVal < glee_cutoff) %>% nrow()
+qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% nrow()
+
+intersect(
+  glee %>% dplyr::filter(pVal < glee_cutoff) %>% .$Accession,
+  qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% .$Protein
+) %>% length()
+# --------------------------------------------------------------------------------
 
 
 # # --------------------------------------------------------------------------------

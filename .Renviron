@@ -1,5 +1,0 @@
-# set PLATFORM to one of "linux" / "win" / "wsl"
-PLATFORM = "win"
-QUANDL_API_KEY = "EhEGLA2zDUo74L4zoSaf"
-ALPHAVANTAGE_API_KEY = "471D93UWBZUNZ59U"
-TIINGO_API_KEY = "b644c95c4c1afab44d91626d0bbc06ae7e3a20a0"

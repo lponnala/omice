@@ -3,8 +3,12 @@
 # compare QSPEC vs GLEE output
 # --------------------------------------------------------------------------------
 rm(list = ls(envir = globalenv()), envir = globalenv())
+
 glee = readr::read_csv("glee-NadjSPC-results.csv")
 qspec = readr::read_csv("qspec-adjSPC-results.csv")
+
+glee = readr::read_csv("glee-clpc1-NadjSPC-results.csv")
+qspec = readr::read_csv("qspec-clpc1-adjSPC-results.csv")
 
 symdiff = function(x, y) {
   setdiff(union(x, y), intersect(x, y))
@@ -33,7 +37,7 @@ intersect(
 # # setup
 # load("A.RData")
 # datfile = "datamatrix_clpc1.txt"
-# outfile = "qspec-adjSPC-clpc1-results.csv"
+# outfile = "qspec-clpc1-adjSPC-results.csv"
 # 
 # # write the data in proper format
 # cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)

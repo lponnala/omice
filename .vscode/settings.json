@@ -1,0 +1,8 @@
+{
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe", // "C:\\Distro\\Ubuntu\\ubuntu1804.exe" | "C:\\Program Files\\Git\\bin\\bash.exe" |
+    // [not necessary] "terminal.integrated.shell.linux": "bash",
+    "python.pythonPath": "${env:PYTHON_INSTALL_LOC}", // "C:\\Users\\Lalit\\Miniconda3\\python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.dataScience.changeDirOnImportExport": false,
+    "r.lsp.diagnostics": false
+}

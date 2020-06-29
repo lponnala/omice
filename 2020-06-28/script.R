@@ -28,8 +28,8 @@ rm(list = ls(envir = globalenv()), envir = globalenv())
 
 # setup
 load("A.RData")
-datfile = "datamatrix.txt"
-outfile = "qspec-adjSPC-results.csv"
+datfile = "datamatrix_clpc1.txt"
+outfile = "qspec-adjSPC-clpc1-results.csv"
 
 # write the data in proper format
 cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)

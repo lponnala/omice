@@ -21,38 +21,38 @@
 # # --------------------------------------------------------------------------------
 
 
-# --------------------------------------------------------------------------------
-# run QSPEC
-# --------------------------------------------------------------------------------
-rm(list = ls(envir = globalenv()), envir = globalenv())
-
-# setup
-load("A.RData")
-datfile = "datamatrix_clpc1.txt"
-outfile = "qspec-adjSPC-clpc1-results.csv"
-
-# write the data in proper format
-cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)
-A %>% dplyr::mutate(Length = 1) %>%
-  dplyr::select(Accession, Length, everything()) %>%
-  readr::write_tsv(path = datfile, append = TRUE)
-# inspect the file
-file.show(datfile)
-
-# run QSPEC on Linode (might need to compile the programs: see ../qprot-linux/qprot_1.3.0/make-instructions)
-system("rm -f *qspec*")
-system(paste0("../qprot-linux/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
-system(paste0("../qprot-linux/qprot_1.3.0/getfdr ",datfile,"_qspec"))
-
-# clean up the output (remove the "dummy" length column, and assign proper column names)
-R = readr::read_tsv(file = paste0(datfile,"_qspec_fdr"), col_names = TRUE)
-R %<>% dplyr::select(-Len)
-colnames(R)[2:7] = colnames(A)[2:7]
-R %>% readr::write_csv(path = outfile)
-
-# inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
-file.show(outfile)
-# --------------------------------------------------------------------------------
+# # --------------------------------------------------------------------------------
+# # run QSPEC
+# # --------------------------------------------------------------------------------
+# rm(list = ls(envir = globalenv()), envir = globalenv())
+# 
+# # setup
+# load("A.RData")
+# datfile = "datamatrix_clpc1.txt"
+# outfile = "qspec-adjSPC-clpc1-results.csv"
+# 
+# # write the data in proper format
+# cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)
+# A %>% dplyr::mutate(Length = 1) %>%
+#   dplyr::select(Accession, Length, everything()) %>%
+#   readr::write_tsv(path = datfile, append = TRUE)
+# # inspect the file
+# file.show(datfile)
+# 
+# # run QSPEC on Linode (might need to compile the programs: see ../qprot-linux/qprot_1.3.0/make-instructions)
+# system("rm -f *qspec*")
+# system(paste0("../qprot-linux/qprot_1.3.0/qspec-param ",datfile," 5000 20000 0"))
+# system(paste0("../qprot-linux/qprot_1.3.0/getfdr ",datfile,"_qspec"))
+# 
+# # clean up the output (remove the "dummy" length column, and assign proper column names)
+# R = readr::read_tsv(file = paste0(datfile,"_qspec_fdr"), col_names = TRUE)
+# R %<>% dplyr::select(-Len)
+# colnames(R)[2:7] = colnames(A)[2:7]
+# R %>% readr::write_csv(path = outfile)
+# 
+# # inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
+# file.show(outfile)
+# # --------------------------------------------------------------------------------
 
 
 # # --------------------------------------------------------------------------------

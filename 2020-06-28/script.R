@@ -1,38 +1,38 @@
 
-# --------------------------------------------------------------------------------
-# compare QSPEC vs GLEE output
-# --------------------------------------------------------------------------------
-rm(list = ls(envir = globalenv()), envir = globalenv())
-
-type = c("plain","renorm")[1]
-
-if (type == "plain") {
-  # plain
-  glee = readr::read_csv("glee-NadjSPC-results.csv")
-  qspec = readr::read_csv("qspec-adjSPC-results.csv")
-} else {
-  # renormalized to correct for the amount of 'bait' in the interaction screen
-  glee = readr::read_csv("glee-clpc1-NadjSPC-results.csv")
-  qspec = readr::read_csv("qspec-clpc1-adjSPC-results.csv")
-}
-
-symdiff = function(x, y) {
-  setdiff(union(x, y), intersect(x, y))
-}
-
-symdiff(qspec$Protein,qspec$Protein)
-
-glee_cutoff = 0.01
-qspec_cutoff = 0.05
-
-glee %>% dplyr::filter(pVal < glee_cutoff) %>% nrow()
-qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% nrow()
-
-intersect(
-  glee %>% dplyr::filter(pVal < glee_cutoff) %>% .$Accession,
-  qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% .$Protein
-) %>% length()
-# --------------------------------------------------------------------------------
+# # --------------------------------------------------------------------------------
+# # compare QSPEC vs GLEE output
+# # --------------------------------------------------------------------------------
+# rm(list = ls(envir = globalenv()), envir = globalenv())
+# 
+# type = c("plain","renorm")[1]
+# 
+# if (type == "plain") {
+#   # plain
+#   glee = readr::read_csv("glee-NadjSPC-results.csv")
+#   qspec = readr::read_csv("qspec-adjSPC-results.csv")
+# } else {
+#   # renormalized to correct for the amount of 'bait' in the interaction screen
+#   glee = readr::read_csv("glee-clpc1-NadjSPC-results.csv")
+#   qspec = readr::read_csv("qspec-clpc1-adjSPC-results.csv")
+# }
+# 
+# symdiff = function(x, y) {
+#   setdiff(union(x, y), intersect(x, y))
+# }
+# 
+# symdiff(qspec$Protein,qspec$Protein)
+# 
+# glee_cutoff = 0.01
+# qspec_cutoff = 0.05
+# 
+# glee %>% dplyr::filter(pVal < glee_cutoff) %>% nrow()
+# qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% nrow()
+# 
+# intersect(
+#   glee %>% dplyr::filter(pVal < glee_cutoff) %>% .$Accession,
+#   qspec %>% dplyr::filter(fdr < qspec_cutoff) %>% .$Protein
+# ) %>% length()
+# # --------------------------------------------------------------------------------
 
 
 # # --------------------------------------------------------------------------------
@@ -41,9 +41,16 @@ intersect(
 # rm(list = ls(envir = globalenv()), envir = globalenv())
 # 
 # # setup
-# load("A.RData")
-# datfile = "datamatrix_clpc1.txt"
-# outfile = "qspec-clpc1-adjSPC-results.csv"
+# type = c("plain","renorm")[2]
+# if (type == "plain") {
+#   load("A.RData")
+#   datfile = "datamatrix.txt"
+#   outfile = "qspec-adjSPC-results.csv"
+# } else {
+#   load("A_clpc1.RData")
+#   datfile = "datamatrix_clpc1.txt"
+#   outfile = "qspec-clpc1-adjSPC-results.csv"
+# }
 # 
 # # write the data in proper format
 # cat("Protein\tLength\t0\t0\t0\t1\t1\t1\n", file=datfile, sep="", append=FALSE)
@@ -69,47 +76,54 @@ intersect(
 # # --------------------------------------------------------------------------------
 
 
-# # --------------------------------------------------------------------------------
-# # run GLEE
-# # --------------------------------------------------------------------------------
-# rm(list = ls(envir = globalenv()), envir = globalenv())
-# 
-# # setup
-# source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
-# load("N_clpc1.RData")
-# Data = N
-# nA = 3
-# nB = 3
-# fit_type = "cubic"
-# num_iter = 10000
-# num_digits = 4
-# out_stub = "glee-clpc1-NadjSPC"
-# 
-# # run the procedure
-# Prot = unlist(Data[,1])
-# A = as.matrix(Data[,1+(1:nA)])
-# B = as.matrix(Data[,1+nA+(1:nB)])
-# if (!data_ok(Data,nA,nB)) {
-#   msg = paste("check input data! spreadsheet must have",
-#   "(1) the right number of columns",
-#   "(2) positive finite values",
-#   "\n",sep="\n")
-#   stop(msg)
-# }
-# m = fit_model(A, B, fit_type)
-# model_fit_plots(m, outfile=paste0(out_stub,"-fitplots.png"))
-# stn_pval = calc_stn_pval(A, B, m, num_iter)
-# stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
-# tab = diff_exp_table(stn_pval, Prot, num_digits)
-# 
-# # write out in the same order in which proteins were listed in the input
-# Data %>% dplyr::select(Accession) %>%
-#   dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
-#   readr::write_csv(path = paste0(out_stub,"-results.csv"))
-# 
-# # inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
-# file.show(paste0(out_stub,"-results.csv"))
-# # --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
+# run GLEE
+# --------------------------------------------------------------------------------
+rm(list = ls(envir = globalenv()), envir = globalenv())
+
+# setup
+source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
+type = c("plain","renorm")[2]
+
+if (type == "plain") {
+  load("N.RData")
+  out_stub = "glee-NadjSPC"
+} else {
+  load("N_clpc1.RData")
+  out_stub = "glee-clpc1-NadjSPC"
+}
+Data = N
+nA = 3
+nB = 3
+fit_type = "cubic"
+num_iter = 10000
+num_digits = 4
+
+# run the procedure
+Prot = unlist(Data[,1])
+A = as.matrix(Data[,1+(1:nA)])
+B = as.matrix(Data[,1+nA+(1:nB)])
+if (!data_ok(Data,nA,nB)) {
+  msg = paste("check input data! spreadsheet must have",
+  "(1) the right number of columns",
+  "(2) positive finite values",
+  "\n",sep="\n")
+  stop(msg)
+}
+m = fit_model(A, B, fit_type)
+model_fit_plots(m, outfile=paste0(out_stub,"-fitplots.png"))
+stn_pval = calc_stn_pval(A, B, m, num_iter)
+stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
+tab = diff_exp_table(stn_pval, Prot, num_digits)
+
+# write out in the same order in which proteins were listed in the input
+Data %>% dplyr::select(Accession) %>%
+  dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
+  readr::write_csv(path = paste0(out_stub,"-results.csv"))
+
+# inspect the output (copy-paste it into Klaas's original spreadsheet, ensure proteins are in same order via spot check)
+file.show(paste0(out_stub,"-results.csv"))
+# --------------------------------------------------------------------------------
 
 
 # # --------------------------------------

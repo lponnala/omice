@@ -4,7 +4,7 @@
 # # --------------------------------------------------------------------------------
 # rm(list = ls(envir = globalenv()), envir = globalenv())
 # 
-# type = c("plain","renorm")[1]
+# type = c("plain","renorm")[2]
 # 
 # if (type == "plain") {
 #   # plain

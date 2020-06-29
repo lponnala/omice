@@ -4,11 +4,17 @@
 # --------------------------------------------------------------------------------
 rm(list = ls(envir = globalenv()), envir = globalenv())
 
-glee = readr::read_csv("glee-NadjSPC-results.csv")
-qspec = readr::read_csv("qspec-adjSPC-results.csv")
+type = c("plain","renorm")[1]
 
-glee = readr::read_csv("glee-clpc1-NadjSPC-results.csv")
-qspec = readr::read_csv("qspec-clpc1-adjSPC-results.csv")
+if (type == "plain") {
+  # plain
+  glee = readr::read_csv("glee-NadjSPC-results.csv")
+  qspec = readr::read_csv("qspec-adjSPC-results.csv")
+} else {
+  # renormalized to correct for the amount of 'bait' in the interaction screen
+  glee = readr::read_csv("glee-clpc1-NadjSPC-results.csv")
+  qspec = readr::read_csv("qspec-clpc1-adjSPC-results.csv")
+}
 
 symdiff = function(x, y) {
   setdiff(union(x, y), intersect(x, y))

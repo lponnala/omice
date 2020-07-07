@@ -20,9 +20,10 @@ Y = pd.merge(D, maxValue, how='left', on='Accession').assign(Intensity = lambda 
 Y = Y.pivot(index='Accession', columns='Tissue', values='Intensity').fillna(0)
 
 
-# # ----------------------------------------
-# # // Differential Expression //
-# 
-# diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
-# D = pd.read_excel(diffexp_datafile)
+# ----------------------------------------
+# // Differential Expression //
+# see 2018-02-17/compare-across-funcs.R
+
+diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
+D = pd.read_excel(diffexp_datafile)
 

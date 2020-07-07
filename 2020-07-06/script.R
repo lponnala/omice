@@ -10,5 +10,6 @@ D = readxl::read_excel(clust_datafile)
 # // Differential Expression //
 
 diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
+D = readxl::read_excel(diffexp_datafile)
 
 # ----------------------------------------

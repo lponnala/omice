@@ -28,11 +28,12 @@ linked = linkage(X, method='average', metric='correlation')
 labelList = X.index.values
 plt.figure(figsize=(10, 7))
 dendrogram(linked,
-            color_threshold=0.8,
+            # color_threshold=0.8,
+            truncate_mode='lastp', p = 17,
             orientation='top',
             labels=labelList,
             distance_sort='descending',
-            show_leaf_counts=True, leaf_rotation=45)
+            show_leaf_counts=True, leaf_rotation=90)
 plt.tight_layout()
 plt.show()
 

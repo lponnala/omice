@@ -30,8 +30,17 @@ dendrogram(linked,
             orientation='top',
             labels=labelList,
             distance_sort='descending',
-            show_leaf_counts=True)
+            show_leaf_counts=True, leaf_rotation=45)
 plt.show()
+
+
+from sklearn.cluster import AgglomerativeClustering
+
+num_clust = 4
+cluster = AgglomerativeClustering(n_clusters=num_clust, affinity='correlation', linkage='average')
+y = cluster.fit_predict(X)
+for k in range(num_clust):
+    print(X[y == k].index)
 
 # import numpy as np
 # from scipy.cluster.hierarchy import dendrogram, linkage

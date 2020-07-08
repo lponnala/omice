@@ -7,9 +7,12 @@
 # see 2014-11-24/analyz.R
 
 import pandas as pd
+from scipy.cluster.hierarchy import dendrogram, linkage
+from matplotlib import pyplot as plt
+from sklearn.cluster import AgglomerativeClustering
+
 clust_datafile = "ABC1K_proteomicsDB_expression-clustering-forLalit.xlsx"
 D = pd.read_excel(clust_datafile)
-
 # len(D['Accession'].unique())
 # len(D['Tissue (27 types)'].dropna().values)
 # D['Tissue'].value_counts()
@@ -20,9 +23,7 @@ X = pd.merge(D, maxValue, how='left', on='Accession').assign(Intensity = lambda 
 X = X.pivot(index='Accession', columns='Tissue', values='Intensity').fillna(0)
 X.reset_index().to_csv("cluster_data.csv",index=False)
 
-from scipy.cluster.hierarchy import dendrogram, linkage
-from matplotlib import pyplot as plt
-
+# draw dendrogram to identify the number of clusters
 linked = linkage(X, method='average', metric='correlation')
 labelList = X.index.values
 plt.figure(figsize=(10, 7))
@@ -33,9 +34,7 @@ dendrogram(linked,
             show_leaf_counts=True, leaf_rotation=45)
 plt.show()
 
-
-from sklearn.cluster import AgglomerativeClustering
-
+# find the contents of each cluster
 num_clust = 4
 cluster = AgglomerativeClustering(n_clusters=num_clust, affinity='correlation', linkage='average')
 y = cluster.fit_predict(X)

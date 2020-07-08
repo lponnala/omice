@@ -28,17 +28,6 @@ if (save_fig) {
     dev.off()
 }
 
-# # to identify the contents of each cluster
-# x = identify(D_hc)
-# # click on each cluster manually and then save the resulting list
-# save(x, file="clusters.RData")
-# # print the contents of each cluster
-# for (i in 1:length(x)) {
-# 	cat("\n", "-- cluster ", i, " --", "\n", sep="")
-# 	cat(as.character(DATA[x[[i]],1]), sep="\n")
-# 	cat("\n\n")
-# }
-
 # ----------------------------------------
 # // Differential Expression //
 # see 2018-02-17/compare-across-funcs.R

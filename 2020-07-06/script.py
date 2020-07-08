@@ -28,10 +28,12 @@ linked = linkage(X, method='average', metric='correlation')
 labelList = X.index.values
 plt.figure(figsize=(10, 7))
 dendrogram(linked,
+            color_threshold=0.8,
             orientation='top',
             labels=labelList,
             distance_sort='descending',
             show_leaf_counts=True, leaf_rotation=45)
+plt.tight_layout()
 plt.show()
 
 # find the contents of each cluster
@@ -41,30 +43,6 @@ y = cluster.fit_predict(X)
 for k in range(num_clust):
     print(f"cluster {k+1}")
     print(X[y == k].index)
-
-# import numpy as np
-# from scipy.cluster.hierarchy import dendrogram, linkage
-# from matplotlib import pyplot as plt
-# 
-# X = np.array([[5,3],
-#     [10,15],
-#     [15,12],
-#     [24,10],
-#     [30,30],
-#     [85,70],
-#     [71,80],
-#     [60,78],
-#     [70,55],
-#     [80,91],])
-# linked = linkage(X, 'single')
-# labelList = range(1, 11)
-# plt.figure(figsize=(10, 7))
-# dendrogram(linked,
-#             orientation='top',
-#             labels=labelList,
-#             distance_sort='descending',
-#             show_leaf_counts=True)
-# plt.show()
 
 
 # # ----------------------------------------

@@ -3,13 +3,11 @@
 # // Heirarchical Clustering //
 # see 2014-11-24/analyz.R
 
-clust_datafile = "ABC1K_proteomicsDB_expression-clustering-forLalit.xlsx"
-D = readxl::read_excel(clust_datafile)
+
 
 # ----------------------------------------
 # // Differential Expression //
+# see 2018-02-17/compare-across-funcs.R
 
-diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
-D = readxl::read_excel(diffexp_datafile)
 
 # ----------------------------------------

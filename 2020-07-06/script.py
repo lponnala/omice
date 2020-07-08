@@ -18,7 +18,7 @@ D = D.iloc[:,:4]
 maxValue = D.groupby('Accession')['Average Normalized Intensity'].max().reset_index().rename({'Average Normalized Intensity':'Max Intensity'},axis=1)
 Y = pd.merge(D, maxValue, how='left', on='Accession').assign(Intensity = lambda X: X['Average Normalized Intensity']/X['Max Intensity'])
 Y = Y.pivot(index='Accession', columns='Tissue', values='Intensity').fillna(0)
-
+Y.reset_index().to_csv("cluster_data.csv",index=False)
 
 # # ----------------------------------------
 # # // Differential Expression //

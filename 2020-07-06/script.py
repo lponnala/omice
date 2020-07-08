@@ -39,6 +39,7 @@ num_clust = 4
 cluster = AgglomerativeClustering(n_clusters=num_clust, affinity='correlation', linkage='average')
 y = cluster.fit_predict(X)
 for k in range(num_clust):
+    print(f"cluster {k+1}")
     print(X[y == k].index)
 
 # import numpy as np

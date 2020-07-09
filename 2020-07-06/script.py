@@ -24,6 +24,7 @@ X = X.pivot(index='Accession', columns='Tissue', values='Intensity').fillna(0)
 X.reset_index().to_csv("cluster_data.csv",index=False)
 
 # draw dendrogram to identify the number of clusters
+# !! can't mark rectanges around the clusters, so go with the R version in Rscript.R !!
 linked = linkage(X, method='average', metric='correlation')
 labelList = X.index.values
 plt.figure(figsize=(10, 7))
@@ -37,7 +38,7 @@ dendrogram(linked,
 plt.tight_layout()
 plt.show()
 
-# find the contents of each cluster
+# find the contents of each cluster (matches with the R version in Rscript.R)
 num_clust = 4
 cluster = AgglomerativeClustering(n_clusters=num_clust, affinity='correlation', linkage='average')
 y = cluster.fit_predict(X)

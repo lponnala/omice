@@ -57,7 +57,7 @@ y %>% dplyr::count(rep)
 y %>% dplyr::group_by(gen,protein_id) %>% dplyr::summarise(m = mean(val)) %>% dplyr::ungroup() %>% dplyr::summarise(cv = sd(m)/mean(m))
 # .. do anova ..
 ya = y %>% dplyr::mutate(protein_id = as.factor(protein_id), gen = as.factor(gen))
-with_interaction = TRUE
+with_interaction = FALSE
 if (with_interaction) {
   aov2 = stats::aov(val ~ protein_id*gen, data = ya) # in genotype, function, and their interaction
   summary(aov2) %>% print() # protein_id "effect" is significant

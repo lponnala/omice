@@ -49,4 +49,68 @@ dev.off()
 
 y = readr::read_csv("diffexp_anova_data.csv")
 
+y %>% dplyr::count(gen,rep)
+y %>% dplyr::count(gen)
+y %>% dplyr::count(rep)
+
+# // 2-way anova for testing differences in genotype+function //
+y %>% dplyr::group_by(gen,protein_id) %>% dplyr::summarise(m = mean(val)) %>% dplyr::ungroup() %>% dplyr::summarise(cv = sd(m)/mean(m))
+# .. do anova ..
+ya = y %>% dplyr::mutate(protein_id = as.factor(protein_id), gen = as.factor(gen))
+with_interaction = TRUE
+if (with_interaction) {
+  aov2 = stats::aov(val ~ protein_id*gen, data = ya) # in genotype, function, and their interaction
+  summary(aov2) %>% print() # protein_id "effect" is significant
+  aov2 %>% broom::tidy() %>% print()
+  out_file = "two-way-anova-with-interaction.xlsx"
+} else {
+  aov2 = stats::aov(val ~ protein_id + gen, data = ya) # in genotype, function
+  summary(aov2) %>% print() # protein_id "effect" is very significant
+  aov2 %>% broom::tidy() %>% print()
+  out_file = "two-way-anova.xlsx"
+}
+# .. which pairs of proteins are different? ..
+diffexp_proteins = stats::TukeyHSD(aov2, which = "protein_id") %>% broom::tidy() %>% tibble::as_tibble() %>% dplyr::arrange(`adj.p.value`)
+diffexp_proteins %>% dplyr::filter(`adj.p.value` < 0.01) %>% dplyr::count()
+
+# function to write to excel
+toxl = function(data_frames, sheet_names = NA, round = FALSE, column_width = 15, out_file = tempfile(tmpdir = getwd(), fileext = ".xlsx"), open_file = FALSE) {
+  # if data_frames is not a list, try to make it one
+  if (dplyr::is.tbl(data_frames)) {
+    data_frames = list(data_frames)
+  } else if (is.data.frame(data_frames)) {
+    data_frames = list(as_data_frame(data_frames))
+  }
+  
+  if ((length(sheet_names) == 1) && is.na(sheet_names)) {
+    sheet_names = as.character(seq_along(data_frames))
+  } else {
+    if (length(sheet_names) != length(data_frames)) {
+      stop("sheet_names and data_frames are not of same length!")
+    }
+  }
+  
+  wb = openxlsx::createWorkbook()
+  for (i in seq_along(sheet_names)) {
+    openxlsx::addWorksheet(wb, sheetName = sheet_names[[i]])
+    openxlsx::writeDataTable(wb, sheet = sheet_names[[i]], x = data_frames[[i]], startCol = 1, startRow = 1)
+    openxlsx::setColWidths(wb, sheet = sheet_names[[i]], cols = 1:ncol(data_frames[[i]]), widths = column_width)
+    if (round) {
+      style = openxlsx::createStyle(numFmt = "#,#", halign = "center", border = "LeftRight")
+    } else {
+      style = openxlsx::createStyle(halign = "center", border = "LeftRight")
+    }
+    openxlsx::addStyle(wb, sheet = sheet_names[[i]], style = style, rows = seq(1, nrow(data_frames[[i]]) + 1), cols = 1:ncol(data_frames[[i]]), gridExpand = TRUE)
+  }
+  openxlsx::saveWorkbook(wb, file = out_file, overwrite = TRUE)
+  
+  if (open_file) file.show(out_file)
+}
+
+# .. write output ..
+list(
+  aov2 %>% broom::tidy(), 
+  stats::TukeyHSD(aov2, which = "protein_id") %>% broom::tidy() %>% dplyr::arrange(`adj.p.value`)
+) %>% toxl(sheet_names = c("2-way ANOVA","Compare protein"), open_file = FALSE, out_file = out_file)
+
 # ----------------------------------------

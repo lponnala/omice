@@ -63,10 +63,15 @@ D = pd.read_excel(diffexp_datafile)
 D = D.iloc[:,:7].fillna(0)
 D.columns = D.columns.map(lambda x: x.lower().replace(" pg replicate ","_")).map(lambda x: x.replace(" ","_"))
 
+# prepare data for glee
+D.loc[:,['protein_id','wt_1','wt_2','k1_1','k1_2']].to_csv("data_glee_wt-k1.csv", index=False)
+D.loc[:,['protein_id','k1_1','k1_2','k6_1','k6_2']].to_csv("data_glee_k1-k6.csv", index=False)
+D.loc[:,['protein_id','wt_1','wt_2','k6_1','k6_2']].to_csv("data_glee_wt-k6.csv", index=False)
+
+# prepare data for anova
 D = D.melt(id_vars='protein_id', var_name='gen_rep', value_name='val')
 D['gen'] = D['gen_rep'].map(lambda x: x.split('_')[0])
 D['rep'] = D['gen_rep'].map(lambda x: 'rep' + x.split('_')[1])
 D.drop('gen_rep',axis=1,inplace=True)
 D.groupby(['gen','rep']).size()
-
 D.to_csv("diffexp_anova_data.csv", index=False)

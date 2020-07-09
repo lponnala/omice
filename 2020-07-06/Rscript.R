@@ -40,6 +40,7 @@ png(filename = "heatmap.png", width=960, height=480, units="px")
 heatmap.2(Dm, Rowv = as.dendrogram(D_hc), dendrogram = "row", col=redgreen(75), scale="row", key=FALSE, density.info="none", trace="none", cexCol=0.8, labRow=NA)
 dev.off()
 
+
 # ----------------------------------------
 # // Differential Expression //
 # see 2018-02-17/compare-across-funcs.R

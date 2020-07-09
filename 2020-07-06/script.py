@@ -63,3 +63,10 @@ D = pd.read_excel(diffexp_datafile)
 D = D.iloc[:,:7].fillna(0)
 D.columns = D.columns.map(lambda x: x.lower().replace(" pg replicate ","_")).map(lambda x: x.replace(" ","_"))
 
+D = D.melt(id_vars='protein_id', var_name='gen_rep', value_name='val')
+D['gen'] = D['gen_rep'].map(lambda x: x.split('_')[0])
+D['rep'] = D['gen_rep'].map(lambda x: 'rep' + x.split('_')[1])
+D.drop('gen_rep',axis=1,inplace=True)
+D.groupby(['gen','rep']).size()
+
+D.to_csv("diffexp_anova_data.csv", index=False)

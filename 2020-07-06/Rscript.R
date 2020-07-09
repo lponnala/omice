@@ -1,7 +1,8 @@
 
 # ----------------------------------------
 # // Heirarchical Clustering //
-# see 2014-11-24/analyz.R
+# see script.py for preparing the data
+# [the following analysis is based on 2014-11-24/analyz.R]
 
 DATA = readr::read_csv("cluster_data.csv")
 dim(DATA)
@@ -43,7 +44,9 @@ dev.off()
 
 # ----------------------------------------
 # // Differential Expression //
-# see 2018-02-17/compare-across-funcs.R
+# see script.py for preparing the data
+# [the following analysis is based on 2018-02-17/compare-across-funcs.R]
 
+y = readr::read_csv("diffexp_anova_data.csv")
 
 # ----------------------------------------

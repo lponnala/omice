@@ -134,9 +134,9 @@ rm(list = ls(envir = globalenv()), envir = globalenv())
 
 # setup
 source("glee-funcs.R") # copied from https://github.com/lponnala/glee-r-pkg/blob/master/gleeR.r
-type = c("wt-k1","k1-k6","wt-k6")[2]
+type = c("wt-k1","k1-k6","wt-k6")[3]
 
-D = readr::read_csv(paste0("data_glee_",type,".RData"))
+D = readr::read_csv(paste0("data_glee_",type,".csv"))
 out_stub = paste0("glee_",type)
 
 Data = D
@@ -164,8 +164,8 @@ stn_pval_plots(stn_pval, outfile=paste0(out_stub,"-stn-pval.png"))
 tab = diff_exp_table(stn_pval, Prot, num_digits)
 
 # write out in the same order in which proteins were listed in the input
-Data %>% dplyr::select(Accession) %>%
-  dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(Accession = Name), by = "Accession") %>%
+Data %>% dplyr::select(protein_id) %>%
+  dplyr::left_join(tab %>% tibble::as_tibble() %>% dplyr::rename(protein_id = Name), by = "protein_id") %>%
   readr::write_csv(path = paste0(out_stub,"-results.csv"))
 
 

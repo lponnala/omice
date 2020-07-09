@@ -113,4 +113,17 @@ list(
   stats::TukeyHSD(aov2, which = "protein_id") %>% broom::tidy() %>% dplyr::arrange(`adj.p.value`)
 ) %>% toxl(sheet_names = c("2-way ANOVA","Compare protein"), open_file = FALSE, out_file = out_file)
 
+
+# // 1-way anova //
+# ~~ testing differences in genotype ~~
+y %>% dplyr::group_by(gen) %>% dplyr::summarise(m = mean(val)) %>% dplyr::summarise(cv = sd(m)/mean(m))
+aov1 = stats::aov(val ~ gen, data = y)
+summary(aov1) # no significant "genotype" effect
+aov1 %>% broom::tidy()
+# ~~ testing differences in protein_id ~~
+y %>% dplyr::group_by(protein_id) %>% dplyr::summarise(m = mean(val)) %>% dplyr::summarise(cv = sd(m)/mean(m))
+aov1 = stats::aov(val ~ protein_id, data = y)
+summary(aov1) # there is a significant "protein_id" effect
+aov1 %>% broom::tidy()
+
 # ----------------------------------------

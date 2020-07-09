@@ -12,15 +12,19 @@ from matplotlib import pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 
 clust_datafile = "ABC1K_proteomicsDB_expression-clustering-forLalit.xlsx"
+
 D = pd.read_excel(clust_datafile)
 # len(D['Accession'].unique())
 # len(D['Tissue (27 types)'].dropna().values)
 # D['Tissue'].value_counts()
 
+# per Klaas' email, normalize each protein by the max expression value across 27 tissue types
 D = D.iloc[:,:4]
 maxValue = D.groupby('Accession')['Average Normalized Intensity'].max().reset_index().rename({'Average Normalized Intensity':'Max Intensity'},axis=1)
 X = pd.merge(D, maxValue, how='left', on='Accession').assign(Intensity = lambda X: X['Average Normalized Intensity']/X['Max Intensity'])
 X = X.pivot(index='Accession', columns='Tissue', values='Intensity').fillna(0)
+
+# save the normalized-to-max data to be used for clustering
 X.reset_index().to_csv("cluster_data.csv",index=False)
 
 # draw dendrogram to identify the number of clusters
@@ -47,12 +51,15 @@ for k in range(num_clust):
     print(X[y == k].index)
 
 
-# # ----------------------------------------
-# # // Differential Expression //
-# # see 2018-02-17/compare-across-funcs.R
-# 
-# diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
-# D = pd.read_excel(diffexp_datafile)
-# D = D.iloc[:,:7]
-# D.columns = D.columns.map(lambda x: x.lower().replace(" pg replicate ","_")).map(lambda x: x.replace(" ","_"))
+# ----------------------------------------
+# // Differential Expression //
+# see 2018-02-17/compare-across-funcs.R
+
+import pandas as pd
+
+diffexp_datafile = "pgs-elena-forlalit-Glee_annovatest.xlsx"
+
+D = pd.read_excel(diffexp_datafile)
+D = D.iloc[:,:7].fillna(0)
+D.columns = D.columns.map(lambda x: x.lower().replace(" pg replicate ","_")).map(lambda x: x.replace(" ","_"))
 

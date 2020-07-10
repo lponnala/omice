@@ -4,7 +4,7 @@
 # see script.py for preparing the data
 # [the following analysis is based on 2014-11-24/analyz.R]
 
-DATA = readr::read_csv("cluster_data.csv")
+DATA = readr::read_csv("cluster_data_byProtein.csv")
 dim(DATA)
 colnames(DATA)
 
@@ -38,7 +38,7 @@ Dm = as.matrix(D)
 # http://mannheimiagoesprogramming.blogspot.com/2012/06/drawing-heatmaps-in-r-with-heatmap2.html
 
 png(filename = "heatmap.png", width=960, height=480, units="px")
-heatmap.2(Dm, Rowv = as.dendrogram(D_hc), dendrogram = "row", col=redgreen(75), scale="row", key=FALSE, density.info="none", trace="none", cexCol=0.8, labRow=NA)
+heatmap.2(Dm, Rowv = as.dendrogram(D_hc), dendrogram = "row", col=redgreen(75), scale="row", key=TRUE, density.info="none", trace="none", cexCol=0.8, labRow=NA)
 dev.off()
 
 

@@ -16,6 +16,9 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
 
+P.reset_index().to_csv("set1_byProtein",index=False)
+T.reset_index().to_csv("set1_byTissue",index=False)
+
 
 # ~~ Set 2 ~~
 X = pd.read_excel(data_file, sheet_name="set2-PG-ABC", skiprows=1)
@@ -29,6 +32,9 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
+
+P.reset_index().to_csv("set2_byProtein",index=False)
+T.reset_index().to_csv("set2_byTissue",index=False)
 
 
 # ~~ Set 3 ~~
@@ -44,5 +50,6 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
 
-P.to_csv()
+P.reset_index().to_csv("set3_byProtein",index=False)
+T.reset_index().to_csv("set3_byTissue",index=False)
 

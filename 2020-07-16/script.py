@@ -16,8 +16,8 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
 
-P.reset_index().to_csv("set1_byProtein",index=False)
-T.reset_index().to_csv("set1_byTissue",index=False)
+P.reset_index().to_csv("set1_data_byProtein.csv",index=False)
+T.reset_index().to_csv("set1_data_byTissue.csv",index=False)
 
 
 # ~~ Set 2 ~~
@@ -33,8 +33,8 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
 
-P.reset_index().to_csv("set2_byProtein",index=False)
-T.reset_index().to_csv("set2_byTissue",index=False)
+P.reset_index().to_csv("set2_data_byProtein.csv",index=False)
+T.reset_index().to_csv("set2_data_byTissue.csv",index=False)
 
 
 # ~~ Set 3 ~~
@@ -50,6 +50,6 @@ X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 P = X / X.max(axis=0)
 T = X.T / X.max(axis=1)
 
-P.reset_index().to_csv("set3_byProtein",index=False)
-T.reset_index().to_csv("set3_byTissue",index=False)
+P.reset_index().to_csv("set3_data_byProtein.csv",index=False)
+T.reset_index().to_csv("set3_data_byTissue.csv",index=False)
 

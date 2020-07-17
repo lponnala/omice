@@ -40,9 +40,9 @@ heatmap.2(Dm, Rowv = as.dendrogram(D_hc), dendrogram = "row", col=redgreen(75), 
 dev.off()
 
 # // By Tissue //
-data_file = "cluster_data_byTissue.csv"
-dendro_file = "clusters_byTissue.png"
-heatmap_file = "heatmap_byTissue.png"
+data_file = "set1_data_byTissue.csv"
+dendro_file = "set1_clusters_byTissue.png"
+heatmap_file = "set1_heatmap_byTissue.png"
 
 DATA = readr::read_csv(data_file)
 dim(DATA)

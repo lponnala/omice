@@ -10,7 +10,8 @@ if X.shape[0] != len(X['Accession'].drop_duplicates()):
 
 X = X.drop(['our interests','group','lab annotation'],axis=1)
 print(X.isna().sum())
-X = X.fillna(0)
+X = X.fillna(0).set_index('Accession')
 
-
+P = X / X.max(axis=0)
+T = X.T / X.max(axis=1)
 

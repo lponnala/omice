@@ -6,11 +6,8 @@
 # // Heirarchical Clustering //
 # see 2014-11-24/analyz.R
 
+# ~~ prepare the data ~~
 import pandas as pd
-from scipy.cluster.hierarchy import dendrogram, linkage
-from matplotlib import pyplot as plt
-from sklearn.cluster import AgglomerativeClustering
-
 clust_datafile = "ABC1K_proteomicsDB_expression-clustering-forLalit.xlsx"
 
 D = pd.read_excel(clust_datafile)
@@ -33,7 +30,10 @@ T = T.pivot(index='Tissue', columns='Accession', values='Intensity').fillna(0)
 P.reset_index().to_csv("cluster_data_byProtein.csv",index=False)
 T.reset_index().to_csv("cluster_data_byTissue.csv",index=False)
 
-# # draw dendrogram to identify the number of clusters
+# # ~~ draw dendrogram to identify the number of clusters ~~
+# from scipy.cluster.hierarchy import dendrogram, linkage
+# from matplotlib import pyplot as plt
+# from sklearn.cluster import AgglomerativeClustering
 # # !! can't mark rectanges around the clusters, so go with the R version in Rscript.R !!
 # linked = linkage(P, method='average', metric='correlation')
 # labelList = P.index.values
@@ -47,8 +47,7 @@ T.reset_index().to_csv("cluster_data_byTissue.csv",index=False)
 #             show_leaf_counts=True, leaf_rotation=90)
 # plt.tight_layout()
 # plt.show()
-
-# # find the contents of each cluster (matches with the R version in Rscript.R)
+# # ~~ find the contents of each cluster (matches with the R version in Rscript.R) ~~
 # num_clust = 4
 # cluster = AgglomerativeClustering(n_clusters=num_clust, affinity='correlation', linkage='average')
 # y = cluster.fit_predict(P)

@@ -9,7 +9,7 @@ library(gplots)
 
 for (set in c('set1','set2','set3')) {
     for (typ in c('byProtein','byTissue')) {
-        cat(paste0("-- ",set,",",typ," --"))
+        cat(paste0("\n","-- ",set,",",typ," --","\n"))
         data_file = paste0(set,'_data_',typ,'.csv')
         dendro_file = paste0(set,'_clusters_',typ,'.png')
         heatmap_file = paste0(set,'_heatmap_',typ,'.png')

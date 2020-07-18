@@ -37,7 +37,7 @@ print(X.isna().sum())
 X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 
 P = X / X.max(axis=0)
-T = X.T / X.max(axis=1)
+T = X.T / X.max(axis=1).replace(0,1)
 
 if P.isna().any().any():
     raise Exception("NaN values in P")
@@ -60,7 +60,7 @@ print(X.isna().sum())
 X = X.fillna(0).set_index('Accession').rename_axis(columns='Tissue')
 
 P = X / X.max(axis=0)
-T = X.T / X.max(axis=1)
+T = X.T / X.max(axis=1).replace(0,1)
 
 if P.isna().any().any():
     raise Exception("NaN values in P")

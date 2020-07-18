@@ -5,7 +5,7 @@ data_file = "forLalit-3sets-forclusterproteome.xlsx"
 sheets = ['set1-CLP','set2-PG-ABC','set3-TRAP']
 
 for i,sheet in enumerate(sheets):
-    print("\n",f"processing {sheet}","\n",sep="")
+    print("\n",f"~~ processing {sheet} ~~","\n",sep="")
     X = pd.read_excel(data_file, sheet_name=sheet, skiprows=1)
 
     if X.shape[0] != len(X['Accession'].drop_duplicates()):
@@ -19,7 +19,7 @@ for i,sheet in enumerate(sheets):
     P = X
     # remove proteins that have all zero values (since they create problems for the correlation-based distance matrix)
     if any((P == 0).sum(axis=1) == P.shape[1]):
-        print(f"... dropping {sum((P == 0).sum(axis=1) == P.shape[1])} proteins")
+        print(f"dropping {sum((P == 0).sum(axis=1) == P.shape[1])} proteins")
         P = P[(P == 0).sum(axis=1) != P.shape[1]]
     # normalize each row by its max (i.e. by the max across all tissues)
     P = P.apply(lambda x: x/x.max(), axis=1)
@@ -33,7 +33,7 @@ for i,sheet in enumerate(sheets):
     T = X.T
     # remove tissues that have all zero values (since they create problems for the correlation-based distance matrix)
     if any((T == 0).sum(axis=1) == T.shape[1]):
-        print(f"... dropping {sum((T == 0).sum(axis=1) == T.shape[1])} tissues")
+        print(f"dropping {sum((T == 0).sum(axis=1) == T.shape[1])} tissues")
         T = T[(T == 0).sum(axis=1) != T.shape[1]]
     # normalize each row by its max (i.e. by the max across all proteins)
     T = T.apply(lambda x: x/x.max(), axis=1)

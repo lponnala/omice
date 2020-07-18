@@ -8,7 +8,8 @@ library(readr)
 library(gplots)
 
 set = c('set1','set2','set3')[3]
-typ = c('byProtein','byTissue')[1]
+typ = c('byProtein','byTissue')[2]
+num_clust = c(set1 = 5, set2 = 6, set3 = 5)[set]
 
 cat(paste0("-- ",set,",",typ," --"))
 data_file = paste0(set,'_data_',typ,'.csv')
@@ -30,7 +31,6 @@ if (save_fig) {
     png(filename = dendro_file, width=960, height=480, units="px")
 }
 plot(D_hc, labels=unlist(DATA[,1],use.names=FALSE), hang=-1, frame.plot=FALSE, main="Heirarchical Clusters", sub="", xlab="", ylab="correlation-based distance")
-num_clust = 5
 rect.hclust(D_hc, k=num_clust, border = 1 + 1:num_clust)
 if (save_fig) {
     dev.off()

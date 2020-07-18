@@ -8,7 +8,7 @@ library(readr)
 library(gplots)
 
 set = c('set1','set2','set3')[3]
-typ = c('byProtein','byTissue')[1]
+typ = c('byProtein','byTissue')[2]
 
 cat(paste0("-- ",set,",",typ," --"))
 data_file = paste0(set,'_data_',typ,'.csv')
@@ -19,7 +19,7 @@ DATA = readr::read_csv(data_file)
 dim(DATA)
 colnames(DATA)
 D = DATA[,-1]
-sapply(D,class)
+# sapply(D,class)
 unique(sapply(D,class))
 
 # ~~ Dendrogram ~~

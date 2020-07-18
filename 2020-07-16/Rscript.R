@@ -7,8 +7,8 @@
 library(readr)
 library(gplots)
 
-set = c('set1','set2','set3')[3]
-typ = c('byProtein','byTissue')[2]
+set = c('set1','set2','set3')[2]
+typ = c('byProtein','byTissue')[1]
 num_clust = c(set1 = 5, set2 = 6, set3 = 5)[set]
 
 cat(paste0("-- ",set,",",typ," --"))

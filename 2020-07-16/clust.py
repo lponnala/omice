@@ -1,5 +1,5 @@
 
-# This is an alternative (fully in Python) to Rscript.R
+# This is an alternative (fully in Python) to clust.R
 
 # ~~ draw dendrogram ~~
 import pandas as pd

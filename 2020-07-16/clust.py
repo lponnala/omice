@@ -8,6 +8,7 @@ from matplotlib import pyplot as plt
 
 for s in ('set1','set2','set3'):
     for t in ('byProtein','byTissue'):
+        print("\n",f"processing {s} {t}","\n",sep="")
         X = pd.read_csv(f"{s}_data_{t}.csv")
         X = X.set_index({'byProtein': 'Accession', 'byTissue': 'Tissue'}[t])
         linked = linkage(X, method='average', metric='correlation')
@@ -22,7 +23,8 @@ for s in ('set1','set2','set3'):
                     show_leaf_counts=True, leaf_rotation=90)
         plt.title(f"{s}: Hierarchical clustering {t}")
         plt.tight_layout()
-        plt.show()
+        plt.savefig(f"pyfigs/{s}_clusters_{t}.png")
+        # plt.show()
 
 # # ~~ find the contents of each cluster ~~
 # from sklearn.cluster import AgglomerativeClustering

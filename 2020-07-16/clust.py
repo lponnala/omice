@@ -6,13 +6,15 @@ import pandas as pd
 from scipy.cluster.hierarchy import dendrogram, linkage
 from matplotlib import pyplot as plt
 
+from itertools import product
 import seaborn as sns
-s, t = 'set1', 'byProtein'
-print("\n",f"processing {s} {t}","\n",sep="")
-X = pd.read_csv(f"{s}_data_{t}.csv")
-X = X.set_index({'byProtein': 'Accession', 'byTissue': 'Tissue'}[t])
-sns.clustermap(X, method='average', metric='correlation', row_cluster=True, col_cluster=False)
-plt.show()
+
+for s,t in product():
+    print("\n",f"processing {s} {t}","\n",sep="")
+    X = pd.read_csv(f"{s}_data_{t}.csv")
+    X = X.set_index({'byProtein': 'Accession', 'byTissue': 'Tissue'}[t])
+    sns.clustermap(X, method='average', metric='correlation', row_cluster=True, col_cluster=False)
+    plt.show()
 
 
 for s in ('set1','set2','set3'):

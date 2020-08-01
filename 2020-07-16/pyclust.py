@@ -27,13 +27,13 @@ for s,t in product(['set1'],['byProtein','byTissue']):
                 show_leaf_counts=True, leaf_rotation=90)
     plt.title(f"{s}: Hierarchical clustering {t}")
     plt.tight_layout()
-    plt.savefig(f"pyfigs/{s}_clust_{t}.png")
+    plt.savefig(f"figs-py/{s}_clust_{t}.png")
     # plt.show()
 
     # ~~ Heatmap ~~
     sns.clustermap(X, method='average', metric='correlation', row_cluster=True, col_cluster=False)
     plt.tight_layout()
-    plt.savefig(f"pyfigs/{s}_hmap_{t}.png")
+    plt.savefig(f"figs-py/{s}_hmap_{t}.png")
     # plt.show()
 
 

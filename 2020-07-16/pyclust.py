@@ -3,20 +3,13 @@
 
 # ~~ draw dendrogram ~~
 import pandas as pd
-from scipy.cluster.hierarchy import dendrogram, linkage
 from matplotlib import pyplot as plt
-
-from itertools import product
+from scipy.cluster.hierarchy import dendrogram, linkage
 import seaborn as sns
+from itertools import product
 
-for s,t in product(['set1','set2','set3'],['byProtein','byTissue']):
-    print("\n",f"processing {s} {t}","\n",sep="")
-    X = pd.read_csv(f"{s}_data_{t}.csv")
-    X = X.set_index({'byProtein': 'Accession', 'byTissue': 'Tissue'}[t])
-    sns.clustermap(X, method='average', metric='correlation', row_cluster=True, col_cluster=False)
-    plt.show()
-
-for s,t in product(['set1','set2','set3'],['byProtein','byTissue']):
+# ['set1','set2','set3'],['byProtein','byTissue']
+for s,t in product(['set1'],['byProtein','byTissue']):
     print("\n",f"processing {s} {t}","\n",sep="")
     X = pd.read_csv(f"{s}_data_{t}.csv")
     X = X.set_index({'byProtein': 'Accession', 'byTissue': 'Tissue'}[t])

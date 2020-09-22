@@ -26,8 +26,8 @@ for (key in c("PGs","17-ABC1Ks")) {
         D_hc = hclust(D_dd, method="average")
         png(filename = dendro_file, width=960, height=480, units="px")
         plot(D_hc, labels=unlist(DATA[,1],use.names=FALSE), hang=-1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
-        num_clust = 4
-        rect.hclust(D_hc, k=num_clust, border = 1 + 1:num_clust)
+        # num_clust = 4
+        # rect.hclust(D_hc, k=num_clust, border = 1 + 1:num_clust)
         dev.off()
     }
 }

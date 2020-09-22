@@ -18,6 +18,7 @@ for (key in c("PGs","17-ABC1Ks")) {
         D = DATA[,-1]
         # sapply(D,class)
         unique(sapply(D,class))
+        print(head(D))
 
         # ~~ Dendrogram ~~
         D_dd = as.dist((1-cor(t(D)))/2)

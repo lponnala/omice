@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 A = pd.read_excel("ATHENA-PGs-ABC1Ks-forLalit.xlsx",sheet_name=None,skiprows=1)
+show_plots = False
 
 for key in A.keys():
     print("\n",key,"\n",sep="")
@@ -36,15 +37,24 @@ for key in A.keys():
     fig,axs = plt.subplots(figsize=(12,12))
     df.T.plot(kind='bar',ax=axs)
     axs.set_title(key)
-    plt.show()
+    if show_plots:
+        plt.show()
+    else:
+        plt.savefig(f"{key}_bars.png")
 
     # plot as lines
     fig,axs = plt.subplots(figsize=(12,12))
     df.T.plot(kind='line',ax=axs)
     axs.set_title(key)
-    plt.show()
+    if show_plots:
+        plt.show()
+    else:
+        plt.savefig(f"{key}_lines.png")
 
     fig,axs = plt.subplots(figsize=(12,12))
     sns.heatmap(df, cmap="icefire", annot=False, ax=axs)
     axs.set_title(key)
-    plt.show()
+    if show_plots:
+        plt.show()
+    else:
+        plt.savefig(f"{key}_heatmap.png")

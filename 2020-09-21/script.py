@@ -17,13 +17,13 @@ if any(df.isna().sum(axis=1) == df.shape[1]):
 # fill missing values with zero
 df = df.fillna(0)
 
-# divide each row by its max (i.e. by the max across all tissues)
+# standardize each row by its max (i.e. by the max across all tissues)
 df_s = df.apply(lambda x: x/x.max(), axis=1)
 
 # # min-max scaling of each row
 # df_mm = df.apply(lambda x: (x-x.min())/(x.max()-x.min()), axis=1)
 
-# standardize each row
+# apply z-score transformation for each row
 df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
 
 

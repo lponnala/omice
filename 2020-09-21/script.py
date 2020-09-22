@@ -1,6 +1,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 A = pd.read_excel("ATHENA-PGs-ABC1Ks-forLalit.xlsx",sheet_name=None,skiprows=1)
 
@@ -31,7 +32,19 @@ for key in A.keys():
     df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
     df_z.to_csv(f"{key}_Zscore_data.csv")
 
-    # plot
-    df.T.plot()
+    # plot as bars
+    fig,axs = plt.subplots(figsize=(12,12))
+    df.T.plot(kind='bar',ax=axs)
+    axs.set_title(key)
     plt.show()
 
+    # plot as lines
+    fig,axs = plt.subplots(figsize=(12,12))
+    df.T.plot(kind='line',ax=axs)
+    axs.set_title(key)
+    plt.show()
+
+    fig,axs = plt.subplots(figsize=(12,12))
+    sns.heatmap(df, cmap="icefire", annot=False, ax=axs)
+    axs.set_title(key)
+    plt.show()

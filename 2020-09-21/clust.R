@@ -18,10 +18,11 @@ for (key in c("PGs","17-ABC1Ks")) {
         D = DATA[,-1]
         # sapply(D,class)
         unique(sapply(D,class))
-        print(head(D))
+        # print(head(D))
 
         # ~~ Dendrogram ~~
         D_dd = as.dist((1-cor(t(D)))/2)
+        print(D_dd)
         D_hc = hclust(D_dd, method="average")
         png(filename = dendro_file, width=960, height=480, units="px")
         plot(D_hc, labels=unlist(DATA[,1],use.names=FALSE), hang=-1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ,")"), sub="", xlab="", ylab="correlation-based distance")

@@ -16,7 +16,7 @@ df = df.fillna(0)
 
 # scale each row by its max (i.e. by the max across all tissues)
 df_s = df.apply(lambda x: x/x.max(), axis=1)
-df_s.to_csv(f"{key}_scaled_data.csv")
+df_s.to_csv(f"{key}_Scaled_data.csv")
 
 # note: dividing by the max seems better suited (instead of min-max scaling) because:
 # - we don't want to replace the minimum (across tissues) in each protein with zero
@@ -27,5 +27,5 @@ df_s.to_csv(f"{key}_scaled_data.csv")
 
 # apply z-score transformation for each row
 df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
-df_z.to_csv(f"{key}_zscore_data.csv")
+df_z.to_csv(f"{key}_Zscore_data.csv")
 

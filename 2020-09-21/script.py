@@ -2,7 +2,7 @@
 import pandas as pd
 
 A = pd.read_excel("ATHENA-PGs-ABC1Ks-forLalit.xlsx",sheet_name=None,skiprows=1)
-key = ['PGs','17-ABC1Ks'][0]
+key = ['PGs','17-ABC1Ks'][1]
 
 df = A[key].drop(columns=['our interests','group','lab annotation']).set_index('Accession')
 
@@ -16,7 +16,7 @@ df = df.fillna(0)
 
 # scale each row by its max (i.e. by the max across all tissues)
 df_s = df.apply(lambda x: x/x.max(), axis=1)
-df_s.to_csv(f"{key}_scaled.csv")
+df_s.to_csv(f"{key}_scaled_data.csv")
 
 # note: dividing by the max seems better suited (instead of min-max scaling) because:
 # - we don't want to replace the minimum (across tissues) in each protein with zero
@@ -27,5 +27,5 @@ df_s.to_csv(f"{key}_scaled.csv")
 
 # apply z-score transformation for each row
 df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
-df_z.to_csv(f"{key}_zscore.csv")
+df_z.to_csv(f"{key}_zscore_data.csv")
 

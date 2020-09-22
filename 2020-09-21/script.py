@@ -1,5 +1,6 @@
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 A = pd.read_excel("ATHENA-PGs-ABC1Ks-forLalit.xlsx",sheet_name=None,skiprows=1)
 
@@ -29,4 +30,8 @@ for key in A.keys():
     # apply z-score transformation for each row
     df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
     df_z.to_csv(f"{key}_Zscore_data.csv")
+
+    # plot
+    df.T.plot()
+    plt.show()
 

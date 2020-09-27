@@ -32,3 +32,15 @@ for (key in c("PGs","17-ABC1Ks")) {
     }
 }
 
+
+library(pvclust)
+set.seed(123)
+key = 'PGs'
+typ = 'Scaled'
+data_file = paste0(key,'_',typ,'_data.csv')
+DATA = readr::read_csv(data_file)
+D = t(DATA[,-1])
+colnames(D) = unlist(DATA[,1])
+pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20)
+plot(pv, hang = -1, cex = 0.5)
+pvrect(pv)

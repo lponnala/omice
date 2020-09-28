@@ -25,7 +25,7 @@ for (key in c("PGs","17-ABC1Ks")) {
 
         # ~~ Dendrogram ~~
         # pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20) # use the default correlation-distance (which does not divide by 2)
-        pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(x))/2) , nboot=20) # divide by 2 to make dist go from 0 to 1
+        pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(x))/2), nboot=100) # divide by 2 to make dist go from 0 to 1
 
         # ~~ Plot ~~
         if (save_plots) {

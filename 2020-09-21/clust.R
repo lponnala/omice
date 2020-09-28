@@ -41,7 +41,19 @@ data_file = paste0(key,'_',typ,'_data.csv')
 DATA = readr::read_csv(data_file)
 D = t(DATA[,-1])
 colnames(D) = unlist(DATA[,1])
-# pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20)
-pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(t(x)))/2) , nboot=20)
+pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20)
+# pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(t(x)))/2) , nboot=20)
 plot(pv, hang = -1, cex = 0.5)
 pvrect(pv)
+
+D = DATA[,-1]
+D_dd = as.dist(1-cor(t(D)))
+# print(D_dd)
+D_hc = hclust(D_dd, method="average")
+plot(D_hc, labels=unlist(DATA[,1],use.names=FALSE), hang=-1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
+
+# ----------
+
+# heatmap: check out pheatmap()
+# https://www.datanovia.com/en/blog/clustering-using-correlation-as-distance-measures-in-r/
+

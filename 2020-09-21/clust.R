@@ -24,15 +24,15 @@ for (key in c("PGs","17-ABC1Ks")) {
         unique(sapply(D,class))
 
         # ~~ Dendrogram ~~
-        pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20)
-        # pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(t(x)))/2) , nboot=20)
+        # pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20)
+        pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(x))/2) , nboot=20)
 
         # ~~ Plot ~~
         if (save_plots) {
             dendro_file = paste0(key,'_',typ,'_clusters_pval.png')
             png(filename = dendro_file, width=960, height=480, units="px")
         }
-        plot(pv, hang = -1, cex = 0.5)
+        plot(pv, hang = -1, cex = 1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
         pvrect(pv)
         if (save_plots) {
             dev.off()

@@ -51,6 +51,7 @@ for key in A.keys():
     else:
         plt.savefig(f"{key}_lines.png")
 
+    # plot as heatmap
     fig,axs = plt.subplots(figsize=(12,12))
     sns.heatmap(df, cmap="icefire", annot=False, ax=axs)
     axs.set_title(key)

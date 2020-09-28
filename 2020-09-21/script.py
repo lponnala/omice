@@ -61,6 +61,7 @@ for key in A.keys():
     # plot as heatmap
     # arrange in order of tissue-based clusters: see "cluster the tissues" in clust.R
     if key == 'PGs':
+        # run pvclust and then cat(paste0(pv$hclust$labels[pv$hclust$order],sep="','")) to get the protein order shown in the dendrogram
         protein_order = []
         tissue_order = ['root','callus','egg like callus','cell culture early','cell culture late','carpel','silique','flower pedicle','root tip','root upper zone','sepal','stamen','petal','flower','cotelydons','leaf petiole','cauline leaf','shoot tip','leaf distal','leaf proximal','hypocotyl','node','internode','embryo','seed','seed imbibed','pollen','senescent leaf','silique septum','silique valves']
         df = df.loc[protein_order,tissue_order]

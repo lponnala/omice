@@ -11,7 +11,7 @@
 library(readr)
 library(pvclust)
 set.seed(123)
-num_boot = 10000
+num_boot = 1000
 save_plots = TRUE
 for (key in c("PGs","17-ABC1Ks")) {
     for (typ in c("Scaled","Zscore")) {

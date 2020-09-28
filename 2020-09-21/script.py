@@ -61,13 +61,13 @@ for key in A.keys():
     # plot as heatmap
     # arrange in order of tissue-based clusters: see "cluster the tissues" in clust.R
     if key == 'PGs':
-        # get protein_order that matches dendrogram: run pvclust() as in clust.R section "cluster the proteins (show p-values)" and then cat(paste0(pv$hclust$labels[pv$hclust$order],collapse="','"))
+        # get protein_order that matches dendrogram: run pvclust() as in clust.R section "cluster the proteins (show p-values)" and then cat("'",paste0(pv$hclust$labels[pv$hclust$order],collapse="','"),"'",sep="")
         protein_order = ['AT5G41120.1','AT3G24190.1','AT1G17420.1','AT1G73750.1','AT4G32770.1','AT5G13800.1','AT1G28150.1','AT4G31390.1','AT1G54570.1','AT4G22240.1','AT3G07700.1','AT3G27110.1','AT1G52590.1','AT1G06690.1','AT2G42130.1','AT1G32220.1','AT4G38970.1','AT3G43540.1','AT2G46910.1','AT2G34460.1','AT1G71810.1','AT1G79600.1','AT5G05200.1','AT4G04020.1','AT2G35490.1','AT4G13200.1','AT3G23400.1','AT3G58010.1','AT2G41040.1','AT3G10130.1','AT4G19170.1','AT1G78140.1','AT5G08740.1']
         # get tissue_order that matches dendrogram: run clust.R "cluster the tissues (no p-values)" and copy-paste the tissue names in order
         tissue_order = ['root','callus','egg like callus','cell culture early','cell culture late','carpel','silique','flower pedicle','root tip','root upper zone','sepal','stamen','petal','flower','cotelydons','leaf petiole','cauline leaf','shoot tip','leaf distal','leaf proximal','hypocotyl','node','internode','embryo','seed','seed imbibed','pollen','senescent leaf','silique septum','silique valves']
         df = df.loc[protein_order,tissue_order]
     elif key == '17-ABC1Ks':
-        protein_order = []
+        protein_order = ['AT5G24970.1','AT1G61640.1','AT2G40090.1','AT5G24810.1','AT5G50330.1','AT1G11390.1','AT4G01660.1','AT1G65950.1','AT5G64940.1','AT3G24190.1','AT2G39190.1','AT4G31390.1','AT4G24810.1','AT1G71810.1','AT3G07700.1','AT1G79600.1','AT5G05200.1']
         tissue_order = ['flower','carpel','petal','stamen','egg like callus','cell culture early','callus','cell culture late','pollen','root upper zone','root','root tip','seed','seed imbibed','embryo','cauline leaf','sepal','senescent leaf','silique septum','silique valves','cotelydons','internode','hypocotyl','node','leaf distal','silique','flower pedicle','leaf petiole','leaf proximal','shoot tip']
         df = df.loc[protein_order,tissue_order]
 

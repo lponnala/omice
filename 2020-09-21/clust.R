@@ -11,7 +11,7 @@
 library(readr)
 library(pvclust)
 set.seed(123)
-num_boot = 1000
+num_boot = 10000
 save_plots = TRUE
 for (key in c("PGs","17-ABC1Ks")) {
     for (typ in c("Scaled","Zscore")) {
@@ -33,8 +33,8 @@ for (key in c("PGs","17-ABC1Ks")) {
             dendro_file = paste0(key,'_',typ,'_clusters_pval.png')
             png(filename = dendro_file, width=960, height=480, units="px")
         }
-        plot(pv, print.pv="bp", print.num=FALSE, hang = -1, col.pv=c(bp="blue"), cex.pv=1, cex = 1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
-        pvrect(pv) # mark red boxes around the significant clusters
+        plot(pv, print.pv="au", print.num=FALSE, hang = -1, col.pv=c(au="blue"), cex.pv=1, cex = 1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
+        pvrect(pv, alpha=0.95, pv="au") # mark red boxes around the significant clusters
         if (save_plots) {
             dev.off()
         }

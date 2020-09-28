@@ -53,6 +53,12 @@ for key in A.keys():
     #     plt.savefig(f"{key}_lines.png")
 
     # plot as heatmap
+    # arrange in order of tissue-based clusters: see "cluster the tissues" in clust.R
+    if key == 'PGs':
+        df = df.loc[:,['root','callus','egg like callus','cell culture early','cell culture late','carpel','silique','flower pedicle','root tip','root upper zone','sepal','stamen','petal','flower','cotelydons','leaf petiole','cauline leaf','shoot tip','leaf distal','leaf proximal','hypocotyl','node','internode','embryo','seed','seed imbibed','pollen','senescent leaf','silique septum','silique valves']]
+    elif key == '17-ABC1Ks':
+        df = df.loc[:,['flower','carpel','petal','stamen','egg like callus','cell culture early','callus','cell culture late','pollen','root upper zone','root','root tip','seed','seed imbibed','embryo','cauline leaf','sepal','senescent leaf','silique septum','silique valves','cotelydons','internode','hypocotyl','node','leaf distal','silique','flower pedicle','leaf petiole','leaf proximal','shoot tip']]
+
     fig,axs = plt.subplots(figsize=(12,12))
     sns.heatmap(df, cmap="icefire", annot=False, ax=axs)
     axs.set_title(key)

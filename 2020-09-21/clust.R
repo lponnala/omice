@@ -25,7 +25,7 @@ for (key in c("PGs","17-ABC1Ks")) {
 
         # ~~ Dendrogram ~~
         # pv = pvclust(D, method.hclust="average", method.dist="correlation", nboot=20) # use the default correlation-distance (which does not divide by 2)
-        pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(x))/2), nboot=100) # divide by 2 to make dist go from 0 to 1
+        pv = pvclust(D, method.hclust="average", method.dist = function(x) as.dist((1-cor(x))/2), nboot=1000) # divide by 2 to make dist go from 0 to 1
 
         # ~~ Plot ~~
         if (save_plots) {
@@ -33,7 +33,7 @@ for (key in c("PGs","17-ABC1Ks")) {
             png(filename = dendro_file, width=960, height=480, units="px")
         }
         plot(pv, hang = -1, cex = 1, frame.plot=FALSE, main=paste0("Heirarchical Clusters: ",key," (using ",typ," abundance)"), sub="", xlab="", ylab="correlation-based distance")
-        pvrect(pv)
+        # pvrect(pv) # mark red boxes around the significant clusters
         if (save_plots) {
             dev.off()
         }

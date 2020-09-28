@@ -33,23 +33,23 @@ for key in A.keys():
     df_z = df.apply(lambda x: (x-x.mean())/x.std(ddof=1), axis=1)
     df_z.to_csv(f"{key}_Zscore_data.csv")
 
-    # plot as bars
-    fig,axs = plt.subplots(figsize=(12,12))
-    df.T.plot(kind='bar',ax=axs)
-    axs.set_title(key)
-    if show_plots:
-        plt.show()
-    else:
-        plt.savefig(f"{key}_bars.png")
+    # # plot as bars
+    # fig,axs = plt.subplots(figsize=(12,12))
+    # df.T.plot(kind='bar',ax=axs)
+    # axs.set_title(key)
+    # if show_plots:
+    #     plt.show()
+    # else:
+    #     plt.savefig(f"{key}_bars.png")
 
-    # plot as lines
-    fig,axs = plt.subplots(figsize=(12,12))
-    df.T.plot(kind='line',ax=axs)
-    axs.set_title(key)
-    if show_plots:
-        plt.show()
-    else:
-        plt.savefig(f"{key}_lines.png")
+    # # plot as lines
+    # fig,axs = plt.subplots(figsize=(12,12))
+    # df.T.plot(kind='line',ax=axs)
+    # axs.set_title(key)
+    # if show_plots:
+    #     plt.show()
+    # else:
+    #     plt.savefig(f"{key}_lines.png")
 
     # plot as heatmap
     fig,axs = plt.subplots(figsize=(12,12))

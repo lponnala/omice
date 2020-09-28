@@ -6,6 +6,7 @@ import seaborn as sns
 A = pd.read_excel("ATHENA-PGs-ABC1Ks-forLalit.xlsx",sheet_name=None,skiprows=1)
 show_plots = False
 
+# normalize each protein
 for key in A.keys():
     print("\n",key,"\n",sep="")
     df = A[key].drop(columns=['our interests','group','lab annotation']).set_index('Accession')
@@ -59,3 +60,4 @@ for key in A.keys():
         plt.show()
     else:
         plt.savefig(f"{key}_heatmap.png")
+

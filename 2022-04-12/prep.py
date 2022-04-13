@@ -4,7 +4,7 @@ from scipy.stats import ttest_ind
 from statsmodels.stats import weightstats, multitest, multicomp
 
 D = pd.read_excel("/home/lponnala/repos/omics/2022-04-12/forlalit-chloroplast-wt-prep1prep2.xlsx")
-ttest_from = ['scipy','statsmodels'][0]
+ttest_from = ['scipy','statsmodels'][1]
 dataset = ['all','subset'][0]
 
 if dataset == 'all':
@@ -19,9 +19,10 @@ S = []
 for _,x in X.iterrows():
     if ttest_from == 'scipy':
         res = ttest_ind(x.iloc[1:4], x.iloc[4:7], equal_var=False, alternative='two-sided')
+        S.append((x['protein'], res.statistic, res.pvalue))
     elif ttest_from == 'statsmodels':
         res = weightstats.ttest_ind(x.iloc[1:4], x.iloc[4:7], usevar='unequal', alternative='two-sided')
-    S.append((x['protein'], res.statistic, res.pvalue))
+        S.append((x['protein'], res[0], res[1]))
 
 S = pd.DataFrame(S, columns=['protein','t-stat','p-value'])
 S['inference'] = (S['p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
@@ -30,6 +31,9 @@ S['inference'].value_counts()
 
 y = multitest.multipletests(S['p-value'], alpha=0.1, method='bonferroni')
 S['corrected-p-value'] = y[1]
+S['corrected-inference'] = (S['corrected-p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
+S['corrected-inference'].value_counts()
+
 # multicomp.tukeyhsd()
 
 # # -- verify previous result --

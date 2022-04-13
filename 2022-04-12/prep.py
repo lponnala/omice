@@ -29,10 +29,12 @@ S['inference'] = (S['p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
 S['inference'].value_counts()
 # print(S)
 
-y = multitest.multipletests(S['p-value'], alpha=0.1, method='bonferroni')
-S['corrected-p-value'] = y[1]
-S['corrected-inference'] = (S['corrected-p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
-S['corrected-inference'].value_counts()
+for method in ['bonferroni','sidak','holm-sidak','holm','simes-hochberg','hommel','fdr_bh','fdr_by','fdr_tsbh','fdr_tsbky'][:1]:
+    print("\n",f".. {method} ..", sep="")
+    y = multitest.multipletests(S['p-value'], alpha=0.1, method=method)
+    S['corrected-p-value'] = y[1]
+    S['corrected-inference'] = (S['corrected-p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
+    S['corrected-inference'].value_counts()
 
 # multicomp.tukeyhsd()
 

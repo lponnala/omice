@@ -30,3 +30,7 @@ print(S)
 # S = pd.DataFrame(S, columns=['function','location','t-stat','p-value'])
 # S['infer'] = (S['p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
 # print(S)
+
+from statsmodels.stats.multitest import multipletests
+y = multipletests(S['p-value'], alpha=0.1, method='bonferroni')
+y[1]

@@ -4,8 +4,8 @@ from scipy.stats import ttest_ind
 from statsmodels.stats import weightstats, multitest, multicomp
 
 D = pd.read_excel("/home/lponnala/repos/omics/2022-04-12/forlalit-chloroplast-wt-prep1prep2.xlsx")
-ttest_from = ['scipy','statsmodels'][1]
-dataset = ['all','subset'][0]
+ttest_from = ['scipy','statsmodels'][0] # both yield same p-values
+dataset = ['all','subset'][1]
 
 if dataset == 'all':
     X = D.iloc[:,[0,4,5,6,7,8,9]]
@@ -35,6 +35,8 @@ for method in ['bonferroni','sidak','holm-sidak','holm','simes-hochberg','hommel
     S['corrected-p-value'] = y[1]
     S['corrected-inference'] = (S['corrected-p-value'] < 0.05).map({True: 'NOTEQ', False: 'EQUAL'})
     S['corrected-inference'].value_counts()
+
+S.to_excel(f"result_{dataset}.xlsx")
 
 # multicomp.tukeyhsd()
 
